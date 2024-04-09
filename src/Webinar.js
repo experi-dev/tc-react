@@ -1,4 +1,3 @@
-// src/Webinar.js
 import React, { useEffect, useState } from 'react';
 import { adminDB } from './api/firebase-admin-config';
 import { ref, onValue } from "firebase/database";
@@ -9,6 +8,7 @@ function Webinar() {
 
   useEffect(() => {
     const meetingRef = ref(adminDB, `/meetingReplays/${topic}`);
+    
     onValue(meetingRef, (snapshot) => {
       if (snapshot.exists()) {
         setMeetingReplay(snapshot.val());
@@ -17,6 +17,11 @@ function Webinar() {
       }
     });
   }, [topic]);
+
+  // Helper function to sort meeting replays by date in descending order
+  const sortedMeetingReplays = () => {
+    return Object.entries(meetingReplay).sort((a, b) => new Date(b[0]) - new Date(a[0]));
+  };
 
   return (
     <div className="max-w-4xl mx-auto py-8 px-4">
@@ -27,10 +32,10 @@ function Webinar() {
           value={topic} 
           onChange={(e) => setTopic(e.target.value)}
         >
-          <option value="Standard">Standard</option>
-          <option value="Advanced Training">Advanced Training</option>
-          <option value="Inner Circle Training">Inner Circle Training</option>
-          <option value="Weekend Planning">Weekend Planning</option>
+          <option value="Basic Forex Training">Standard</option>
+          <option value="Advanced Training">Elite</option>
+          <option value="Inner Circle Training">Inner Circle</option>
+          <option value="Weekend Planning">Weekend Planning - Elite</option>
         </select>
       </header>
 
@@ -48,7 +53,7 @@ function Webinar() {
             </tr>
           </thead>
           <tbody>
-            {Object.entries(meetingReplay).map(([date, videoId]) => (
+            {sortedMeetingReplays().map(([date, videoId]) => (
               <tr key={date}>
                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                   {date}

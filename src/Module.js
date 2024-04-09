@@ -12,7 +12,6 @@ function Module() {
     onValue(courseRef, (snapshot) => {
       if (snapshot.exists()) {
         setCourses(snapshot.val());
-        console.log(courses);
       } else {
         console.log("No data available");
       }

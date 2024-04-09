@@ -26,9 +26,6 @@ function ModuleView() {
     });
   }, [chapter]); // Added chapter as a dependency to re-run this effect if chapter changes
 
-  useEffect(() => {
-    console.log(episodes);
-  }, [episodes]);
 
   return (
     <div className="max-w-4xl mx-auto py-8 px-4">
